@@ -32,6 +32,4 @@ Learn how to build an engaging and interactive live streaming chat app with Next
 
 - [Vercel](https://vercel.com) - A cloud platform for deploying and scaling web applications.
 
-## Author
-
-- Rishi Raj Jain ([@rishi_raj_jain_](https://twitter.com/rishi_raj_jain_))
+Modified from oficial version
