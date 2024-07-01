@@ -9,25 +9,34 @@ export async function POST(request: Request) {
   const formData = await request.formData()
   const email = String(formData.get('email'))
   const password = String(formData.get('password'))
-  const supabase = createRouteHandlerClient({ cookies })
 
-  const { error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  })
+  // Check if the email and password match the demo credentials
+  if (email === 'demo@gmail.com' && password === 'demo') {
+    return NextResponse.redirect(requestUrl.origin, {
+      // a 301 status is required to redirect from a POST to a GET route
+      status: 301,
+    })
+  } else {
+    // If the credentials don't match, attempt to authenticate with Supabase
+    const supabase = createRouteHandlerClient({ cookies })
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
 
-  if (error) {
-    return NextResponse.redirect(
-      `${requestUrl.origin}/login?error=Could not authenticate user`,
-      {
-        // a 301 status is required to redirect from a POST to a GET route
-        status: 301,
-      }
-    )
+    if (error) {
+      return NextResponse.redirect(
+        `${requestUrl.origin}/login?error=Could not authenticate user`,
+        {
+          // a 301 status is required to redirect from a POST to a GET route
+          status: 301,
+        }
+      )
+    }
+
+    return NextResponse.redirect(requestUrl.origin, {
+      // a 301 status is required to redirect from a POST to a GET route
+      status: 301,
+    })
   }
-
-  return NextResponse.redirect(requestUrl.origin, {
-    // a 301 status is required to redirect from a POST to a GET route
-    status: 301,
-  })
 }
